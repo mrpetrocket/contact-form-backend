@@ -1,19 +1,8 @@
-let bodyParser = require('body-parser');
 let request = require('supertest');
-
 let mailMock = function() {
     console.log("fake mail() call with arguments", arguments);
 };
-let routes = require("../routes")(mailMock);
-
-// basically recreate express app so we can test the routes
-let express = require("express");
-let expressValidator = require("express-validator");
-let app = express();
-
-app.use(bodyParser.json());
-app.use(expressValidator());
-app.post('/send', routes.send);
+let app = require("../app")(mailMock);
 
 describe("routes", function() {
     it("should return 204 for valid mail request", function() {
