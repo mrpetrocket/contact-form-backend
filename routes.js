@@ -13,6 +13,7 @@ module.exports = function(mail) {
          * "message" string. valid characters for message.
          */
         send: function send(req, res) {
+            console.log(req.allParams);
             // param validation
             req.check("from").notEmpty().isEmail();
             req.check("subject").notEmpty();
@@ -21,7 +22,11 @@ module.exports = function(mail) {
             req.sanitize("message");
 
             req.getValidationResult()
-                .then(function() {
+                .then(function(result) {
+                    if (!result.isEmpty()) {
+                        console.log(result.array());
+                        return res.status(400).send("invalid form parameters");
+                    }
                     mail(req.params.from, config.get("email.destination"), req.params.subject, req.params.message);
                     res.status(204).send("");
                 });
