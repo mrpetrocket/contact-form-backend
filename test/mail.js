@@ -5,4 +5,5 @@ describe("mailer", function() {
     //    return mail("mrpetrocket+from@gmail.com", "mrpetrocket+to@gmail.com", "subject", "message");
     //});
     it("should send email");
+    it("should format email body correctly");
 });
