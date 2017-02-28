@@ -1,5 +1,11 @@
 {
   "email": {
-    "destination": "mrpetrocket@gmail.com"
+    "destination": "mrpetrocket+to@gmail.com"
+  },
+  "log": {
+    "level": "silly"
+  },
+  "recaptcha": {
+    "use": true
   }
 }

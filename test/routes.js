@@ -1,8 +1,9 @@
-let request = require('supertest');
+let config = require('config'),
+    request = require('supertest');
 let mailMock = function() {
     console.log("fake mail() call with arguments", arguments);
 };
-let app = require("../app")(mailMock);
+let app = require("../app")(config, mailMock);
 
 describe("routes", function() {
     it("should return 204 for valid mail request", function() {

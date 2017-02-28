@@ -1,14 +1,25 @@
 let bodyParser = require('body-parser'),
+    config = require('config'),
     express = require("express"),
-    expressValidator = require("express-validator");
+    expressValidator = require("express-validator"),
+    recaptcha = require("express-recaptcha");
 
-module.exports = function(mail) {
-    let routes = require("./routes")(mail);
+recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
+
+module.exports = function(config, mail) {
+    let routes = require("./routes")(config, mail);
     let app = express();
 
     app.use(bodyParser.json());
+    // from http://stackoverflow.com/questions/5710358/how-to-retrieve-post-query-parameters
+    // html forms are by default urlencoded
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
     app.use(expressValidator());
-    app.post('/send', routes.send);
+    app.set("view engine", "ejs");
+    app.post('/send', recaptcha.middleware.verify, routes.send);
+    app.get("/", recaptcha.middleware.render, routes.contactform);
 
     return app;
 };
