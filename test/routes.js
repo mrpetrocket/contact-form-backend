@@ -1,17 +1,20 @@
-let config = require('config'),
+let chai = require("chai"),
+    log = require("../log"),
     request = require('supertest');
+let expect = chai.expect;
 let mailMock = function() {
-    console.log("fake mail() call with arguments", arguments);
+    log.silly("fake mail() call with arguments", arguments);
 };
-let app = require("../app")(config, mailMock);
+let app = require("../app")(mailMock, false);
+var validMailParams = {
+    from: "valid@email.com",
+    subject: "valid subject",
+    message: "valid message"
+};
 
 describe("routes", function() {
     it("should return 204 for valid mail request", function() {
-        return testSendRoute({
-            from: "valid@email.com",
-            subject: "valid subject",
-            message: "valid message"
-        }, 204);
+        return testSendRoute(validMailParams, 204);
     });
     it("should return 400 for missing 'from' address", function() {
         return testSendRoute({
@@ -38,7 +41,15 @@ describe("routes", function() {
             subject: "valid subject"
         }, 400);
     });
-    it("should return 400 for invalid recaptcha");
+    it("should return 400 for missing recaptcha", function() {
+        return request(require("../app")(mailMock))
+            .post("/send")
+            .send(validMailParams)
+            .expect(400)
+            .then(response => {
+                expect(response.error.text).to.equal("recaptcha error");
+            });
+    });
 });
 
 // generic test "send X parameters to send route, see what response code comes out"

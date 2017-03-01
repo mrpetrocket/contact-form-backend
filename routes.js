@@ -1,11 +1,18 @@
-let log = require("./log");
+let config = require("config"),
+    log = require("./log");
 
 /**
- * @param config require("config") or test mock
  * @param mail require("mail") or test mock
+ * @param {Boolean} [useRecaptcha=true] Set to false for server-side testing where recaptcha is not available
  * @returns {Object} routes
  */
-module.exports = function(config, mail) {
+module.exports = function(mail, useRecaptcha) {
+    if (typeof useRecaptcha === "undefined") {
+        useRecaptcha = true;
+    }
+    if (!useRecaptcha) {
+        log.warn("recaptcha verification is OFF; testing only");
+    }
     return {
         /**
          * Basic contact form for end to end test
@@ -25,10 +32,8 @@ module.exports = function(config, mail) {
          */
         send: function send(req, res) {
             // recaptcha
-            log.debug(req.body["g-recaptcha-response"]);
-            log.debug(req.body);
-            if (config.get("recaptcha.use") && req.recaptcha.error) {
-                log.error(req.recaptcha.error);
+            if (useRecaptcha && req.recaptcha.error) {
+                log.error("recaptcha error", req.recaptcha.error);
                 return res.status(400).send("recaptcha error");
             }
 
@@ -42,7 +47,7 @@ module.exports = function(config, mail) {
             req.getValidationResult()
                 .then(function(result) {
                     if (!result.isEmpty()) {
-                        log.debug(result.array());
+                        log.error("params error", result.array());
                         return res.status(400).send("invalid form parameters");
                     } else {
                         mail(req.body.from, config.get("email.destination"), req.body.subject, req.body.message);

@@ -2,12 +2,13 @@ let bodyParser = require('body-parser'),
     config = require('config'),
     express = require("express"),
     expressValidator = require("express-validator"),
+    log = require("./log"),
     recaptcha = require("express-recaptcha");
 
 recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
 
-module.exports = function(config, mail) {
-    let routes = require("./routes")(config, mail);
+module.exports = function(mail, useRecaptcha) {
+    let routes = require("./routes")(mail, useRecaptcha);
     let app = express();
 
     app.use(bodyParser.json());

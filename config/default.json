@@ -5,7 +5,5 @@
   "log": {
     "level": "silly"
   },
-  "recaptcha": {
-    "use": true
-  }
+  "version": "1.0"
 }
