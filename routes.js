@@ -50,7 +50,7 @@ module.exports = function(mail, useRecaptcha) {
                         log.error("params error", result.array());
                         return res.status(400).send("invalid form parameters");
                     } else {
-                        mail(req.body.from, config.get("email.destination"), req.body.subject, req.body.message);
+                        mail(req.body.from, config.get("email.source"), config.get("email.destination"), req.body.subject, req.body.message);
                         res.status(204).send("");
                     }
                 })
