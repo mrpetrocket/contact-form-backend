@@ -1,5 +1,6 @@
 let bodyParser = require('body-parser'),
     config = require('config'),
+    cors = require("cors"),
     express = require("express"),
     expressValidator = require("express-validator"),
     log = require("./log"),
@@ -19,7 +20,9 @@ module.exports = function(mail, useRecaptcha) {
     }));
     app.use(expressValidator());
     app.set("view engine", "ejs");
-    app.post('/send', recaptcha.middleware.verify, routes.send);
+    app.post('/send', cors({
+        optionsSuccessStatus: 200
+    }), recaptcha.middleware.verify, routes.send);
     app.get("/", recaptcha.middleware.render, routes.contactform);
 
     return app;

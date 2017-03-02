@@ -3,9 +3,48 @@
 <head>
     <title>Test Contact Form</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script
+            src="http://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script>
+        // submit form via ajax
+        function getContactFormStatusDiv() {
+            return $("#contact-form-status");
+        }
+        function setSendStatusText(text) {
+            getContactFormStatusDiv().html(text);
+        }
+        function onEmailSent() {
+            setSendStatusText("Email sent!");
+        }
+        function onEmailSendFailed() {
+            setSendStatusText("There was a problem sending your email :'(");
+        }
+        function onSubmitContactForm(e) {
+            $("#btn-submit-contact-form").hide();
+            setSendStatusText("Sending...");
+            var contactFormStatus = getContactFormStatusDiv();
+            contactFormStatus.show();
+            $.post("http://mailer.mistap.com/send", $("#contact-form").serialize(), onEmailSent)
+                    .fail(onEmailSendFailed);
+            e.preventDefault();
+        }
+        function onWindowReady() {
+            $("#contact-form").on("submit", onSubmitContactForm);
+        }
+        $(window).ready(onWindowReady);
+        // end form submit code
+    </script>
+    <style>
+        #contact-form-status {
+            display: none;
+            padding: 6px 12px;
+        }
+    </style>
 </head>
 <body>
-<form action="/send" method="POST">
+<form action="/" id="contact-form" method="POST">
     <div class="form-group">
         <label for="from">Your email address</label>
         <input id="from" class="form-control" name="from" value="mrpetrocket+from@gmail.com"/>
@@ -19,7 +58,8 @@
         <textarea id="message" name="message" class="form-control">valid message</textarea>
     </div>
     <%- captcha%>
-    <button class="btn btn-default" type="submit">Contact Me</button>
+    <button id="btn-submit-contact-form" class="btn btn-default" type="submit">Contact Me</button>
+    <div id="contact-form-status"></div>
 </form>
 </body>
 </html>
