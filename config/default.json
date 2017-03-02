@@ -1,10 +1,7 @@
 {
-  "email": {
-    "destination": "mrpetrocket+to@gmail.com",
-    "source": "mrpetrocket+from@gmail.com"
-  },
   "log": {
     "level": "silly"
   },
+  "port": 3000,
   "version": "1.0"
 }

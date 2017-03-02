@@ -1,4 +1,12 @@
 {
+  "aws": {
+    "access_key_id": "YOUR_ACCESS_KEY",
+    "secret_access_key": "YOUR_SECRET_KEY"
+  },
+  "email": {
+    "destination": "mybusiness@gmail.com",
+    "source": "mybusiness+contactform@gmail.com"
+  },
   "recaptcha": {
     "site_key": "YOUR_SITE_KEY",
     "secret_key": "YOUR_SECRET_KEY"

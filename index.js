@@ -9,7 +9,7 @@ let app = require("./app"),
     log = require("./log");
 
 let mailerApp = app(mail);
-let port = 3000;
+let port = config.get("port");
 
 mailerApp.listen(port, function () {
     log.info("Mailer version %s listening on port %d!", config.get("version"), port)

@@ -1,10 +1,16 @@
 let AWS = require('aws-sdk'),
+    config = require("config"),
     ejs = require("ejs"),
     fs = require("fs"),
     log = require("./log"),
     nodemailer = require('nodemailer'),
     util = require("util");
+
+AWS.config = new AWS.Config();
+AWS.config.accessKeyId = config.get("aws.access_key_id");
+AWS.config.secretAccessKey = config.get("aws.secret_access_key");
 AWS.config.region = "us-west-2";
+
 let transporter = nodemailer.createTransport({
     SES: new AWS.SES({apiVersion: '2010-12-01'})
 });
