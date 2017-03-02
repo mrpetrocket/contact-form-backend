@@ -1,3 +1,5 @@
+.idea/deployment.xml
+.idea/webServers.xml
 .idea/workspace.xml
 config/local.json
 node_modules
