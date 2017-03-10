@@ -7,8 +7,8 @@ let mailMock = function() {
 };
 let app = require("../app")(mailMock, false);
 var validMailParams = {
-    from: "valid@email.com",
-    subject: "valid subject",
+    name: "valid name",
+    email: "valid@email.com",
     message: "valid message"
 };
 
@@ -16,29 +16,29 @@ describe("routes", function() {
     it("should return 204 for valid mail request", function() {
         return testSendRoute(validMailParams, 204);
     });
-    it("should return 400 for missing 'from' address", function() {
+    it("should return 400 for missing 'email' parameter", function() {
         return testSendRoute({
-            subject: "valid subject",
-            message: "valid message"
+            message: "valid message",
+            name: "valid name"
         }, 400);
     });
-    it("should return 400 for invalid 'from' address", function() {
+    it("should return 400 for invalid 'email' parameter", function() {
         return testSendRoute({
-            from: "lol not valid",
-            subject: "valid subject",
-            message: "valid message"
+            email: "lol not valid",
+            message: "valid message",
+            name: "valid name"
         }, 400);
     });
-    it("should return 400 for missing param 'subject'", function() {
+    it("should return 400 for missing param 'name'", function() {
         return testSendRoute({
-            from: "valid@email.com",
+            email: "valid@email.com",
             message: "valid message"
         }, 400);
     });
     it("should return 400 for missing param 'message'", function() {
         return testSendRoute({
-            from: "valid@email.com",
-            subject: "valid subject"
+            email: "valid@email.com",
+            name: "valid name"
         }, 400);
     });
     it("should return 400 for missing recaptcha", function() {

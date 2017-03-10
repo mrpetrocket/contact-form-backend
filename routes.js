@@ -26,9 +26,9 @@ module.exports = function(mail, useRecaptcha) {
         },
         /**
          * request parameters
-         * "from" reply email address. either not present or a valid email address.
-         * "subject" string. valid characters for subject
-         * "message" string. valid characters for message.
+         * "name" string.
+         * "email" reply email address. either not present or a valid email address.
+         * "message" string.
          */
         send: function send(req, res) {
             // recaptcha
@@ -38,10 +38,10 @@ module.exports = function(mail, useRecaptcha) {
             }
 
             // param validation
-            req.check("from").notEmpty().isEmail();
-            req.check("subject").notEmpty();
+            req.check("name").notEmpty();
+            req.check("email").notEmpty().isEmail();
             req.check("message").notEmpty();
-            req.sanitize("subject");
+            req.sanitize("name");
             req.sanitize("message");
 
             req.getValidationResult()
@@ -50,7 +50,7 @@ module.exports = function(mail, useRecaptcha) {
                         log.error("params error", result.array());
                         return res.status(400).send("invalid form parameters");
                     } else {
-                        mail(req.body.from, config.get("email.source"), config.get("email.destination"), req.body.subject, req.body.message);
+                        mail(req.body.email, config.get("email.source"), req.body.name, config.get("email.destination"), "Contact Form Submitted", req.body.message);
                         res.status(204).send("");
                     }
                 })
