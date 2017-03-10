@@ -1,4 +1,7 @@
 {
+  "email": {
+    "subject": "Contact Form Submitted"
+  },
   "log": {
     "level": "silly"
   },

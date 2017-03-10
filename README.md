@@ -3,13 +3,14 @@ contact form backend. runs on port 3000. uses SES and Recaptcha.
 
 test `npm test`
 run `node index.js`
+visit http://localhost:3000 for sample contact form
 
 ## usage
-1. Add email destination address, AWS and recaptcha keys to config. See `config/example.json`.
-2. Run server
-3. POST to `<server>/send`
-4. Expected POST parameters: from (string, email); subject (string); message (string), recaptcha
-5. Delivers 204 on success, 400 on missing or invalid parameters.
+1. Copy `config/example.json` to `config/local.json`, substitute real values.
+2. Run server with `node index.js`
+3. Setup your contact form to provide these parameters: email (string, valid email); name (string); message (string), recaptcha
+3. POST form to `<server>/send`
+5. Server delivers 204 on success, 400 on missing or invalid parameters.
 6. Email will be sent to the configured destination address.
 
 ## outstanding issues

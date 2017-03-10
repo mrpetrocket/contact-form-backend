@@ -2,10 +2,13 @@ let chai = require("chai"),
     log = require("../log"),
     request = require('supertest');
 let expect = chai.expect;
-let mailMock = function() {
-    log.silly("fake mail() call with arguments", arguments);
+let mailServiceMock = {
+    send: function() {
+        log.silly("fake mailservice.send() call with arguments", arguments);
+        return Promise.resolve();
+    }
 };
-let app = require("../app")(mailMock, false);
+let app = require("../app")(mailServiceMock, false);
 var validMailParams = {
     name: "valid name",
     email: "valid@email.com",
@@ -42,7 +45,7 @@ describe("routes", function() {
         }, 400);
     });
     it("should return 400 for missing recaptcha", function() {
-        return request(require("../app")(mailMock))
+        return request(require("../app")(mailServiceMock))
             .post("/send")
             .send(validMailParams)
             .expect(400)

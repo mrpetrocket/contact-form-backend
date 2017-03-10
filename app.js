@@ -8,8 +8,8 @@ let bodyParser = require('body-parser'),
 
 recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
 
-module.exports = function(mail, useRecaptcha) {
-    let routes = require("./routes")(mail, useRecaptcha);
+module.exports = function(mailservice, useRecaptcha) {
+    let routes = require("./routes")(mailservice, useRecaptcha);
     let app = express();
 
     app.use(bodyParser.json());

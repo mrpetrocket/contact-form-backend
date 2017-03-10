@@ -5,10 +5,10 @@
 
 let app = require("./app"),
     config = require("config"),
-    mail = require("./mail"),
+    mailservice = require("./mailservice")(require("./mail")),
     log = require("./log");
 
-let mailerApp = app(mail);
+let mailerApp = app(mailservice);
 let port = config.get("port");
 
 mailerApp.listen(port, function () {

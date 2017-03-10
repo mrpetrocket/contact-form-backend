@@ -2,11 +2,11 @@ let config = require("config"),
     log = require("./log");
 
 /**
- * @param mail require("mail") or test mock
+ * @param mailservice require("./mailservice") or test mock
  * @param {Boolean} [useRecaptcha=true] Set to false for server-side testing where recaptcha is not available
  * @returns {Object} routes
  */
-module.exports = function(mail, useRecaptcha) {
+module.exports = function(mailservice, useRecaptcha) {
     if (typeof useRecaptcha === "undefined") {
         useRecaptcha = true;
     }
@@ -50,8 +50,10 @@ module.exports = function(mail, useRecaptcha) {
                         log.error("params error", result.array());
                         return res.status(400).send("invalid form parameters");
                     } else {
-                        mail(req.body.email, config.get("email.source"), req.body.name, config.get("email.destination"), "Contact Form Submitted", req.body.message);
-                        res.status(204).send("");
+                        return mailservice.send(req.body.name, req.body.email, req.body.message)
+                            .then(function() {
+                                res.status(204).send("");
+                            });
                     }
                 })
                 .catch(function(err) {
