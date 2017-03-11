@@ -1,12 +1,12 @@
 # mailer
 contact form backend. runs on port 3000. uses SES and Recaptcha.
 
-test `npm test`
+test `npm test` (unix) or `set NODE_ENV=test&&mocha` (windows)
 run `node index.js`
 visit http://localhost:3000 for sample contact form
 
 ## usage
-1. Copy `config/example.json` to `config/local.json`, substitute real values.
+1. Copy `config/example.json` to `config/local.json`, fill in all fields. Remember to verify the source/destination addresses with SES.
 2. Run server with `node index.js`
 3. Setup your contact form to provide these parameters: email (string, valid email); name (string); message (string), recaptcha
 3. POST form to `<server>/send`

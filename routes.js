@@ -15,7 +15,7 @@ module.exports = function(mailservice, useRecaptcha) {
     }
     return {
         /**
-         * Basic contact form for end to end test
+         * Example contact form
          * @param req
          * @param res
          */

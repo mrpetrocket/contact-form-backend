@@ -5,7 +5,8 @@
   },
   "email": {
     "destination": "mybusiness@gmail.com",
-    "source": "mybusiness+contactform@gmail.com"
+    "source": "mybusiness+contactform@gmail.com",
+    "subject": "Contact Form Submitted"
   },
   "recaptcha": {
     "site_key": "YOUR_SITE_KEY",

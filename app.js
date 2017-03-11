@@ -6,9 +6,11 @@ let bodyParser = require('body-parser'),
     log = require("./log"),
     recaptcha = require("express-recaptcha");
 
-recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
 
 module.exports = function(mailservice, useRecaptcha) {
+    if (useRecaptcha) {
+        recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
+    }
     let routes = require("./routes")(mailservice, useRecaptcha);
     let app = express();
 
