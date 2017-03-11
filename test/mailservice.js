@@ -2,7 +2,7 @@ let config = require("config"),
     chai = require("chai"),
     expect = chai.expect;
 
-describe("mailer", function() {
+describe("mailservice", function() {
     it("should send pertinent details from contact form to mail()", function(done) {
         var contactForm = {
             name: "valid name",
@@ -29,13 +29,3 @@ describe("mailer", function() {
 
     });
 });
-
-/**
- * Returns true if text contains all other strings.
- * @param text
- * @param {...string} text must contain these string(s)
- * @returns boolean
- */
-function contains(text) {
-
-}

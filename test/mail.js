@@ -1,5 +1,5 @@
 //var mail = require("../mail");
-describe("mailer", function() {
+describe("mail", function() {
     it("should send email");
     // TODO: implement this test. will require listening for incoming email and an SES key
     //it("should send email", function () {

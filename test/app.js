@@ -15,7 +15,7 @@ var validMailParams = {
     message: "valid message"
 };
 
-describe("routes", function() {
+describe("app", function() {
     it("should return 204 for valid mail request", function() {
         return testSendRoute(validMailParams, 204);
     });

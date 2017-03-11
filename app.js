@@ -8,6 +8,9 @@ let bodyParser = require('body-parser'),
 
 
 module.exports = function(mailservice, useRecaptcha) {
+    if (typeof useRecaptcha === "undefined") {
+        useRecaptcha = true;
+    }
     if (useRecaptcha) {
         recaptcha.init(config.recaptcha.site_key, config.recaptcha.secret_key);
     }
